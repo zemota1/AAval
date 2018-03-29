@@ -21,11 +21,10 @@ def cmp(a, b):
 class binheap:
 
 
-    def __init__(self, key, n):
+    def __init__(self, n):
         self.max_size = n
         self.size = 0
         self.heap = [None]*n
-        self.key = key
         #self.map = [None]*n
 
 
@@ -56,14 +55,15 @@ class binheap:
         self.binheap_siftdown(self.heap, 0)
 
         self.heap[self.size] = math.inf
-        
+
         return aux
 
-    def binheap_make(self, n):
+    def binheap_make(self, n, list):
         self.size = n
 
-        for i in range (n):
-            self.heap[i] = i
+        self.heap = list[:]
+
+        print(self.heap)
 
         for i in range (parent(n - 1), 0, -1):
             self.binheap_siftdown(self.heap, i)
@@ -71,8 +71,8 @@ class binheap:
     def binheap_exchange(self, heap, i, j):
 
         aux = heap[i]
-        heap[i] = heap [j]
-        heap[j] = aux
+        self.heap[i] = heap [j]
+        self.heap[j] = aux
 
     def binheap_siftdown(self, heap, start):
 
@@ -80,34 +80,35 @@ class binheap:
         r = right(start)
         m = start
 
+        print('AQUI')
         if(l < self.size and cmp(heap[l], heap[m])):
             m = l
         if(r < self.size and cmp(heap[r], heap[m])):
-             m = r
+            m = r
         if(m == start):
+            print(self.heap)
             return
 
         self.binheap_exchange(heap, start, m)
         self.binheap_siftdown(heap, m)
 
     def binheap_siftup(self, heap, start):
-        
+
         p = parent(start)
-        
+
         if(p>=math.inf or cmp(heap[p], heap[start])):
             return
-        
+
         self.binheap_exchange(heap, start, p)
         self.binheap_siftup(heap, p)
 
 def main():
-    
+
     a = [2, 1, 3, 4, 0]
-    
-    
+
+    bh = binheap(5)
+    bh.binheap_make(5, a)
+
+
 
 main()
-
-        
-
-    
