@@ -15,17 +15,15 @@ def cmp(a, b):
         return True
     if (a > b):
         return False
-    if (a == b):
-        print ('VERRRRR')
+    #if (a == b):
+    #    print ('VERRRRR')
 
 class binheap:
 
 
-    def __init__(self, key, n):
-        self.max_size = n
+    def __init__(self, n):
         self.size = 0
         self.heap = [None]*n
-        self.key = key
         #self.map = [None]*n
 
 
@@ -39,13 +37,13 @@ class binheap:
         return self.heap[0]
 
     def binheap_insert(self, id):
-        if(self.size >= self.max_size):
-            return
 
-        self.heap[self.size] = id
+        self.heap.append(id)
         self.size += 1
 
-        self.binheap_siftup(self.heap)
+        print("Heap com novo elemento", self.heap)
+        self.binheap_siftup(self.heap, self.size-1)
+
 
     def binheap_min(self):
 
@@ -55,24 +53,26 @@ class binheap:
         self.binheap_exchange(self.heap, self.size, 0)
         self.binheap_siftdown(self.heap, 0)
 
-        self.heap[self.size] = math.inf
-        
+        del self.heap[-1]
+        print(self.heap)
         return aux
 
-    def binheap_make(self, n):
+    def binheap_make(self, n, list):
         self.size = n
 
-        for i in range (n):
-            self.heap[i] = i
+        self.heap = list[:]
 
-        for i in range (parent(n - 1), 0, -1):
+        print("Heap desorganziada", self.heap)
+
+        for i in range (parent(n - 1), -1, -1):
             self.binheap_siftdown(self.heap, i)
 
     def binheap_exchange(self, heap, i, j):
 
         aux = heap[i]
-        heap[i] = heap [j]
-        heap[j] = aux
+        self.heap[i] = heap[j]
+        self.heap[j] = aux
+        print(self.heap)
 
     def binheap_siftdown(self, heap, start):
 
@@ -80,34 +80,36 @@ class binheap:
         r = right(start)
         m = start
 
+
         if(l < self.size and cmp(heap[l], heap[m])):
             m = l
         if(r < self.size and cmp(heap[r], heap[m])):
-             m = r
+            m = r
         if(m == start):
+            print(self.heap)
             return
 
         self.binheap_exchange(heap, start, m)
         self.binheap_siftdown(heap, m)
 
     def binheap_siftup(self, heap, start):
-        
+
         p = parent(start)
-        
-        if(p>=math.inf or cmp(heap[p], heap[start])):
+
+        if((p>=math.inf) or (p<0) or cmp(self.heap[p], self.heap[start])):
             return
-        
+
         self.binheap_exchange(heap, start, p)
-        self.binheap_siftup(heap, p)
+        self.binheap_siftup(self.heap, p)
 
 def main():
-    
-    a = [2, 1, 3, 4, 0]
-    
-    
+
+    a = [35, 26, 33, 15, 24, 5, 4, 12, 1, 23, 21, 2]
+
+    bh = binheap(12)
+    bh.binheap_make(12, a)
+    #bh.binheap_min()
+
+
 
 main()
-
-        
-
-    
