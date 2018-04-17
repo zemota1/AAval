@@ -51,7 +51,7 @@ class binheap:
 		self.binheap_siftup(self.heap, self.size-1)
 
 
-	def binheap_min(self):
+	def binheap_delMin(self):
 
 		aux = self.heap[0]
 		self.size -=1
@@ -60,17 +60,13 @@ class binheap:
 		self.binheap_siftdown(self.heap, 0)
 
 		del self.heap[-1]
-		
-		self.map[aux[1]] = -1 
-		return aux
+
+		self.map[aux[1]] = -1
 
 	def binheap_make(self, n, list):
 		self.size = n
 		self.heap = list[:]
 		for i in range(n):
-			'''self.heap[i][0] = math.inf 
-												self.heap[i][1] = i
-												self.heap[i][2] = None'''
 			self.map[self.heap[i][1]] = i
 
 		for i in range (parent(n - 1), -1, -1):
@@ -86,7 +82,7 @@ class binheap:
 
 
 	def binheap_siftdown(self, heap, start):
-		
+
 		l = left(start)
 		r = right(start)
 		m = start
@@ -110,27 +106,3 @@ class binheap:
 
 		self.binheap_exchange(heap, start, p)
 		self.binheap_siftup(self.heap, p)
-
-
-
-'''def main():
-
-	v1 = [1,0,3]
-	v2 = [1,2,4]
-	v3 = [5,3,2]
-	v4 = [0,4,1]
-	v5 = [3,5,2]
-	v6 = [2,1,5]
-	v7 = [1,6,1]
-
-	v = [v1,v2,v3,v4,v5,v6,v7]
-
-	bh = binheap(7)
-	bh.binheap_make(7,v)
-	bh.binheap_min()
-	print('ola', type(bh.map[0]))
-
-main()'''
-
-
-
