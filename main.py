@@ -18,7 +18,7 @@ def main():
 	bh = binheap.binheap(n)
 	bh.binheap_make(n, vertices)
 
-	min = prim.prim(0,g,bh)
+	min = prim.prim(g,bh,n)
 	for i in min:
 		print(i[0], i[1])
 

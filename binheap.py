@@ -30,8 +30,12 @@ class binheap:
 		self.size = 0
 		self.heap = [None]*n
 		self.map = [None]*n
+		self.vertices = []
+		for i in range(n):
+			self.vertices += [i]
 
-
+	def heapPrint(self):
+		return self.heap
 
 	def binheap_empty(self):
 		if(self.size == 0):
@@ -46,21 +50,24 @@ class binheap:
 
 		self.heap.append(v)
 		self.map[v[1]] = self.size
+		self.vertices += [self.size]
 		self.size += 1
 
 		self.binheap_siftup(self.heap, self.size-1)
+		self.binheap_siftdown(self.heap,0)
 
 
 	def binheap_delMin(self):
 
 		aux = self.heap[0]
 		self.size -=1
-
 		self.binheap_exchange(self.heap, self.size, 0)
 		self.binheap_siftdown(self.heap, 0)
 
 		del self.heap[-1]
-
+		
+		self.vertices.remove(aux[1])
+		
 		self.map[aux[1]] = -1
 
 	def binheap_make(self, n, list):

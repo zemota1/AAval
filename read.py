@@ -19,19 +19,19 @@ def diff(a, limit, g):
     length = len(a)
     for i in range(length):
         l = graphy.LinkedList()
-        for j in range(i+1, len(a)):
+        for j in range(length):
             total = 0
             if(i!=j):
-                for k in range (size-1):
+                for k in range (size):
                     if (a[i][k]!=a[j][k]): #limit
                         total += 1
                     if (total > limit):
                         break
                 if(total <= limit):
+                    '''if(i == 16):
+                                                                                    print(i,j,total)'''
                     e1 = graphy.Edge(i,j,total)
-                    e2 = graphy.Edge(j,i,total)
                     l.append(e1)
-                    l.append(e2)
         g.links[i] = l
 
     return g
