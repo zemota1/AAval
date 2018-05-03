@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import math
 
 def left(x):
@@ -11,16 +12,22 @@ def parent(x):
 
 def cmp(a, b):
 
+	for i in [1,2]:
+		if(a[i] == None):
+			a[i] = math.inf
+		if(b[i] == None):
+			b[i] = math.inf
+
+	vertex = {"head":[a[1], a[2]], "neighbour": [b[1], b[2]]}
 	if (a[0] < b[0]):
 		return True
 	elif (a[0] == b[0]):
-		if (a[1] < b[1]):
+		if (min(vertex["head"]) < min(vertex["neighbour"]) ):
 			return True
-		elif (a[1] == b[1]):
-			if(a[2]< b[2]):
+		elif((min(vertex["head"]) == min(vertex["neighbour"]))):
+			if (max(vertex["head"]) < max(vertex["neighbour"]) ):
 				return True
 	return False
-
 
 
 class binheap:
@@ -30,9 +37,9 @@ class binheap:
 		self.size = 0
 		self.heap = [None]*n
 		self.map = [None]*n
-		self.vertices = []
+		self.vertices = {}
 		for i in range(n):
-			self.vertices += [i]
+			self.vertices[i] = True
 
 	def heapPrint(self):
 		return self.heap
@@ -50,7 +57,7 @@ class binheap:
 
 		self.heap.append(v)
 		self.map[v[1]] = self.size
-		self.vertices += [self.size]
+		self.vertices[self.size] = True
 		self.size += 1
 
 		self.binheap_siftup(self.heap, self.size-1)
@@ -65,9 +72,9 @@ class binheap:
 		self.binheap_siftdown(self.heap, 0)
 
 		del self.heap[-1]
-		
-		self.vertices.remove(aux[1])
-		
+
+		self.vertices[aux[1]] = False
+
 		self.map[aux[1]] = -1
 
 	def binheap_make(self, n, list):

@@ -1,16 +1,20 @@
+#!/usr/bin/python3
+
 import prim
 import binheap
 import graphy
 import math
 import read
+from sys import stdin, stdout
+
 
 def main():
 
-	n = int(input())
+	n = int(stdin.readline())
 
 	g = graphy.Graph(n)
 	text = read.readInput(n)
-	limit = int(input())
+	limit = int(stdin.readline())
 
 	g = read.diff(text, limit, g)
 
@@ -18,8 +22,8 @@ def main():
 	bh = binheap.binheap(n)
 	bh.binheap_make(n, vertices)
 
-	min = prim.prim(g,bh,n)
+	min = prim.prim(g,bh)
 	for i in min:
-		print(i[0], i[1])
+		stdout.write(str(i[0]) + ' ' + str(i[1]) + '\n')
 
 main()

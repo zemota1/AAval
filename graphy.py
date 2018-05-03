@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+'''
 class Edge:
 	def __init__(self, source, dest, val):
 		self.source = source
@@ -27,7 +29,7 @@ class Edge:
 		return self.next
 
 	def setNext(self, next):
-		self.next = next				
+		self.next = next
 
 class LinkedList:
 	def __init__(self):
@@ -65,15 +67,20 @@ class LinkedList:
 				print(current.getVal())
 				current = current.getNext()
 			print(current.getVal())
-
+'''
 
 
 class Graph:
 	def __init__(self, size):
-		self.links = [LinkedList]*size
+
+		self.links = [[]]*size
+		for i in range(size):
+			self.links[i] = []
 		self.size = size
+
+
+	def append(self, source, item):
+		self.links[source].append(item)
+
 	def getLinksOfVertexV(self, vertexId):
 		return self.links[vertexId]
-
-
-
