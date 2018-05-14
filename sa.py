@@ -37,43 +37,68 @@ def diff(sa, i, suffix):
 
 def test(sa, suffix, lcp, limit, n):
 
-    length = len(sa[0])
+    length = len(suffix[0])
     k = limit + 1
     l = math.ceil(length/k)
+    aux = []
+    candidatesList = [[] for i in range(limit+1)]
 
-
-    for i in range(len(lcp)):
-        aux = []
+    for i in range(1, len(lcp)):
         if lcp[i] >= l:
-            aux += i
+            aux += [i]
         else:
-            aux += aux[0]-1
-            candidates(sa, suffix, lcp, aux, length, k)
+            if (len(aux) == 0):
+                continue
+            aux += [aux[0] - 1]
+            candidatesList = candidates(sa, suffix, lcp, aux, l, k, candidatesList)
+            aux = []
 
-def candidates(sa, suffix, lcp, aux, length):
-    candidates = []
+    return candidatesList
 
+
+def candidates(sa, suffix, lcp, aux, l, k, candidatesList):
+
+    length = len(suffix[0])
     seq = []
-    for i in range(k):
-        seq += [i]
-    dict = dict.fromkeys(seq, [])
 
-    for i in range(0, len(aux)):
-        for j in range(i+1, len(aux)):
-            first = sa[i]
-            second = sa[j]
-            if((suffix[first] % length) == (suffix[second] % length)):
-                nr_set = (suffix[first] % length) / length
-                dict[nr_set].append(suffix[first - first % length])
-                dict[nr_set].append(suffix[second - second % length])
+    for i in range (len(aux)):
+        for j in range (i+1, len(aux)):
+            first = sa[aux[i]]
+            second = sa[aux[j]]
+            if((len(suffix[first]) == len(suffix[second])) and ((length - len(suffix[first])) % l) == 0):
+                nr_set = int((len(suffix[first]) -1 ) / l)
+                candidatesList[nr_set].append([suffix[first - first % length], (first - first % length)/length])
+                candidatesList[nr_set].append([suffix[second - second % length], (second - second % length)/length])
+
+    return candidatesList
+
+def hamming(candidatesList, limit, size):
+
+    for i in candidatesList:
+        for j in range(len(i)):
+            for h in range(j+1, len(i)):
+                total = 0
+                for k in range (size):
+                    if (i[j][0][k]!=i[h][0][k]): #limit
+                        total += 1
+                        if (total > limit):
+                            break
+                if(total <= limit):
+                    e1 = (i[j][1],i[h][1],total)
+                    print(e1)                        #g.append(i,e1)
+                    #g.append(j,e2)
 
 def main():
 
     n = int(stdin.readline())
     sa, suffix = readInput(n)
     limit = int(stdin.readline())
+    size = len(suffix[0])
     print(sa, '\n\n',suffix)
     lcp = lcpFunc(sa, suffix)
-    test(sa, suffix, lcp, n, limit)
+    print(lcp)
+    candidatesList = test(sa, suffix, lcp, limit, n)
+    hamming(candidatesList, limit,size)
+
 
 main()
